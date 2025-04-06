@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Linter
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: 27.0
+          elixir-version: 1.18
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix credo --strict --ignore design.alias
+      - run: mix format --check-formatted
+      - run: mix dialyzer --format github
+
+  test:
+    strategy:
+      matrix:
+        version:
+          - otp: 27.0
+            elixir: 1.18
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.version.otp}} / Elixir ${{matrix.version.elixir}}
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.version.otp}}
+          elixir-version: ${{matrix.version.elixir}}
+      - run: mix deps.get mix compile --warnings-as-errors
+      - run: mix test
+
