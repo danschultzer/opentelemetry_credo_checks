@@ -10,6 +10,7 @@ Credo checks for OpenTelemetry.
 Includes checks for: 
 
 - `OpentelemetryCredoChecks.Check.Warning.TaskProcessPropagation`
+- `OpentelemetryCredoChecks.Check.Warning.PhoenixLiveViewProcessPropagation`
 
 <!-- MDOC !-->
 
@@ -59,6 +60,25 @@ $ mix credo
 ┃
 ┃ [W] ↗ There should be no direct calls to `Task`, alias `OpentelemetryProcessPropagator.Task`.
 ┃       lib/my_app/my_module.ex:1:1 #(MyApp.MyModule)
+```
+
+### Ensure process propagation for `Phoenix.LiveView` async assigns
+
+This check will raise an issue if there is missing process propagation for Phoenix LiveView async assigns.
+
+```elixir
+{OpentelemetryCredoChecks.Check.Warning.PhoenixLiveViewProcessPropagation, []}
+```
+
+Suppose you have a `MyAppWeb.MyLiveView` module:
+
+```elixir
+$ mix credo
+
+┃  Warnings - please take a look
+┃
+┃ [W] ↗ There should be no calls to `assign_async`, `OpentelemetryPhoenixLiveViewProcessPropagator.LiveView.assign_async` must be used instead.
+┃       lib/my_app_web/my_live_view.ex:1:1 #(MyAppWeb.MyLiveView)
 ```
 
 <!-- MDOC !-->
