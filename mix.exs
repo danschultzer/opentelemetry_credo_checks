@@ -1,7 +1,7 @@
 defmodule OpentelemetryCredoChecks.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/open-telemtrex/opentelemetry_credo_checks"
+  @source_url "https://github.com/open-telemetrex/opentelemetry_credo_checks"
   @version "0.1.0"
 
   def project do
