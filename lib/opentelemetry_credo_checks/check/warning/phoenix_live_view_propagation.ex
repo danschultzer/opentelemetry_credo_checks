@@ -5,6 +5,9 @@ defmodule OpentelemetryCredoChecks.Check.Warning.PhoenixLiveViewProcessPropagati
     run_on_all: true,
     category: :warning,
     base_priority: :high,
+    param_defaults: [
+      files: %{excluded: ["test/**/*_test.exs", "apps/**/test/**/*_test.exs"]}
+    ],
     explanations: [
       check: """
       OpenTelemetry must propagate context to all Phoenix LiveView async processes.
